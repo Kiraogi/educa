@@ -71,3 +71,20 @@
 </div>
 {% endwith %}
 {% endblock %}
+
+{% block include_js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/html5sortable.min.js"></script>
+{% endblock %}
+
+{% block domready %}
+var options = {
+    method: 'POST',
+    mode: 'same-origin'
+}
+const moduleOrderUrl = '{% url "module_order" %}';
+
+sortable('#modules',{
+    forcePlaceholderSize: true,
+    placeholderClass: 'placeholder'
+})
+{% endblock %}
