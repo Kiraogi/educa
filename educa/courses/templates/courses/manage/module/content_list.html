@@ -101,4 +101,25 @@ sortable('#modules',{
       fetch(moduleOrderUrl, options)
     });
   });
+
+  const contentOrderUrl = '{% url "content_order" %}';
+
+  sortable('#module-contents', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'placeholder'
+  })[0].addEventListener('sortupdate', function(e) {
+
+    contentOrder = {};
+    var contents = document.querySelectorAll('#module-contents div');
+    contents.forEach(function (content, index) {
+      // Обновить индекс контента
+      contentOrder[content.dataset.id] = index;
+      // Добавить новый порядок в опции HTTP-запроса
+      options['body'] = JSON.stringify(contentOrder);
+
+      // Отправить HTTP-запрос
+      fetch(contentOrderUrl, options)
+    });
+  });
+
 {% endblock %}
