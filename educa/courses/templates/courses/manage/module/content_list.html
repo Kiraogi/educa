@@ -86,5 +86,19 @@ const moduleOrderUrl = '{% url "module_order" %}';
 sortable('#modules',{
     forcePlaceholderSize: true,
     placeholderClass: 'placeholder'
-})
+})[0].addEventListener('sortupdate', function(e) {
+    modulesOrder = {};
+    var modules = document.querySelectorAll('#modules li');
+    modules.forEach(function (module, index) {
+      // Обновить индекс модуля
+      modulesOrder[module.dataset.id] = index;
+      // Обновить индекс в HTML-элементе
+      module.querySelector('.order').innerHTML = index + 1;
+      // Добавить новый порядок в опции HTTP-запроса
+      options['body'] = JSON.stringify(modulesOrder);
+
+      // Отправить HTTP-запрос
+      fetch(moduleOrderUrl, options)
+    });
+  });
 {% endblock %}
