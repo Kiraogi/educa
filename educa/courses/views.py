@@ -83,7 +83,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
         return None
     
     def get_form(self, model, *args, **kwargs):
-        Form = modelform_factory(model, exclude=['owner', 'order', 'created', 'update'])
+        Form = modelform_factory(model, exclude=['owner', 'order', 'created', 'updated'])
         return Form(*args, **kwargs)
     
     def dispatch(self, request, module_id, model_name, id=None):
