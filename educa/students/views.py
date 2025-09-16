@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,3 +43,23 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(students__in=[self.request.user])
+
+class StudentCourseDetailView(DetailView):
+    model = Course
+    template_name = 'student/course/detail.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(student__in=[self.request.user])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Получить объект Course
+        course = self.get_object()
+        if 'module_id' in self.kwargs:
+            # Взять текущий модуль
+            context['module'] = course.modules.get(id=self.kwargs['module_id'])
+        else:
+            # Взять первый модуль
+            context['module'] = course.modules.all()[0]
+        return context
