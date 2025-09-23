@@ -50,7 +50,7 @@ class StudentCourseDetailView(DetailView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(student__in=[self.request.user])
+        return qs.filter(students__in=[self.request.user])
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
