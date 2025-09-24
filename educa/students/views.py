@@ -7,9 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-from .forms import CourseEnrollForm
 from courses.models import Course
+from .forms import CourseEnrollForm
+
 
 class StudentRegistrationView(CreateView):
     template_name = 'students/student/registration.html'
@@ -27,6 +27,7 @@ class StudentRegistrationView(CreateView):
 class StudentEnrollCourseView(LoginRequiredMixin, FormView):
     course = None
     form_class = CourseEnrollForm
+    
 
     def form_valid(self, form):
         self.course = form.cleaned_data['course']
