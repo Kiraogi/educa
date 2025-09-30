@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'embed_video',
     'debug_toolbar',
     'redisboard',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,8 @@ INTERNAL_IPS=[
     '127.0.0.1',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
