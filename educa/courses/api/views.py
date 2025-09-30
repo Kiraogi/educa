@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics # type: ignore
 from courses.models import Subject
 from courses.api.serializers import SubjectSerializer
 
