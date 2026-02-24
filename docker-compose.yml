@@ -10,6 +10,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
+  cache:
+    image: redis:7.0.5
+    restart: always
+    volumes:
+      - ./data/cache:/data
+
 
   web:
     build: .
@@ -24,6 +30,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
-      # - cache
+      - cache
 
 
