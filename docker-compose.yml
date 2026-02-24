@@ -19,7 +19,8 @@ services:
 
   web:
     build: .
-    command: ["./wait-for-it.sh", "db:5432", "--", "uwsgi", "--ini", "/code/config/uwsgi/uwsgi.ini"]
+    command: daphne -b 0.0.0.0 -p 8000 educa.asgi:application
+    # command: ["./wait-for-it.sh", "db:5432", "--", "uwsgi", "--ini", "/code/config/uwsgi/uwsgi.ini"]
     restart: always
     volumes:
       - .:/code
@@ -40,5 +41,20 @@ services:
       - .:/code
     ports:
     - "80:80"
-
-
+    - "443:443"
+    
+  daphne:
+    build: .
+    working_dir: /code/educa/
+    command: ["../wait-for-it.sh", "db:5432", "--", "daphne", "-u", "/code/educa/daphne.sock", "educa.asgi:application"]
+    restart: always
+    volumes:
+      - .:/code
+    environment:
+      - DJANGO_SETTINGS_MODULE=educa.settings.prod
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+      - cache
