@@ -53,7 +53,7 @@ docker compose up --build
 docker compose exec web python manage.py migrate
 ```
 
-3) Создать ��уперпользователя:
+3) Создать Суперпользователя:
 ```bash
 docker compose exec web python manage.py createsuperuser
 ```
